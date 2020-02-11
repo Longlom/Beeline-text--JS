@@ -1,10 +1,6 @@
-
 (function () {
     'use strict'
-
-
     document.body.querySelector('form').addEventListener('submit',function (event) {
-
         let $new_div;
         const data = document.body.querySelector('.inp').value;
         $new_div = $('<div class="user_style"><img src="user.png"><div class="user_ans"></div></div>')
@@ -25,7 +21,7 @@
         }
         else if( document.body.querySelector('form').dataset.showInfo === 'checked') {
             if (data ==='/name: Alex') {
-                $bot_ans = $('<div class="bot_style"><img src="bot.png"><div class="bot_ans">Привет Alex, приятно познакомится. Я умею считать, введи числа которые надо посчитать</div></div>');
+                $bot_ans = $('<div class="bot_style"><img src="bot.png"><div class="bot_ans">Привет Alex, приятно познакомиться. Я умею считать, введи числа которые надо посчитать</div></div>');
                 $bot_ans.hide();
                 $('.chat_block_container').prepend($bot_ans);
                 $bot_ans.slideDown();
@@ -34,6 +30,7 @@
                 nums = data.match(/\d+/g);
                 if (nums.length === 2) {
                     document.body.querySelector('form').dataset.numsShow = `${nums[0]}` + `,${nums[1]}`;
+                    document.body.querySelector('form').dataset.numsFlag = 'true'
                     $bot_ans = $('<div class="bot_style"><img src="bot.png"><div class="bot_ans">-, +, *, / ?</div></div>');
                     $bot_ans.hide();
                     $('.chat_block_container').prepend($bot_ans);
@@ -44,7 +41,7 @@
                     $('.chat_block_container').prepend($bot_ans);
                     $bot_ans.slideDown();
                 }
-            } else if (data === '+' || data === '-' || data === '*' || data === '/') {
+            } else if ((data === '+' || data === '-' || data === '*' || data === '/') &&(document.body.querySelector('form').dataset.numsFlag === 'true')) {
                 if (document.body.querySelector('form').dataset.numsShow !== undefined) {
                     let nums = document.body.querySelector('form').dataset.numsShow;
                     nums = nums.match(/\d+/g);
@@ -80,6 +77,11 @@
             } else if (data === '/stop') {
                 document.body.querySelector('form').dataset.showInfo = 'none';
                 $bot_ans = $('<div class="bot_style"><img src="bot.png"><div class="bot_ans">Всего доброго, если хочешь поговорить пиши /start</div></div>');
+                $bot_ans.hide();
+                $('.chat_block_container').prepend($bot_ans);
+                $bot_ans.slideDown();
+            } else{
+                $bot_ans = $('<div class="bot_style"><img src="bot.png"><div class="bot_ans">Я не понимаю, введите другую команду!</div></div>');
                 $bot_ans.hide();
                 $('.chat_block_container').prepend($bot_ans);
                 $bot_ans.slideDown();
@@ -127,13 +129,6 @@
             for (let key of i){
                 key.classList.remove('i');
             }
-
         }
     });
-
-
-
 })();
-
-
-
